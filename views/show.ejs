@@ -1,0 +1,45 @@
+<h1>Name: <%= place.name %></h1>
+<h2>Address: <%= place.address %></h2>
+<p>Lat: <%= place.lat %></p>
+<p>Long: <%= place.lng %></p>
+
+<div id='map'></div>
+
+<script>
+var marker = <%- JSON.stringify(place) %>;
+var initMap = function() {
+
+var map = new google.maps.Map(document.getElementById('map'), {
+        center: {lat: <%= place.lat %>, lng: <%= place.lng %>},
+        zoom: 15
+});
+
+    // if brower support available, ask user for location data and set the map view
+// if (navigator.geolocation) {
+//         navigator.geolocation.getCurrentPosition(function(position) {
+//         var initialLocation = new google.maps.LatLng(
+//             position.coords.latitude,
+//             position.coords.longitude
+//         );
+//         map.setCenter(initialLocation);
+//         });
+//     }
+
+    // for each marker passed through, add it to the map with a popup
+            console.log(marker);
+            var position = new google.maps.LatLng(marker.lat, marker.lng);
+            var googleMarker = new google.maps.Marker({
+            position: position,
+            title: marker.name,
+            map: map
+            });
+            // Bind a popup to the marker
+            googleMarker.addListener('click', function() {
+            var infoWindow = new google.maps.InfoWindow({
+                content: '<h3>' + marker.name + '</h3>'
+            });
+            infoWindow.open(map, googleMarker);
+            });
+};
+</script>
+<script async defer src="https://maps.googleapis.com/maps/api/js?key=<%= process.env.KEY %>&callback=initMap"></script>

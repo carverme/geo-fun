@@ -36,6 +36,13 @@ app.get('/new', function(req, res) {
   res.render('new');
 });
 
+app.get('/info/:id', function(req, res) {
+  db.place.find({
+    where: {id: req.params.id}
+  }).then(function(data) {
+    res.render('show', {place: data});
+  });
+});
 
 
 app.listen(port, function() {
