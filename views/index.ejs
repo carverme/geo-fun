@@ -1,0 +1,20 @@
+<h1>GeoCode</h1>
+<div id="map"></div>
+
+
+
+
+<ul>
+  <% places.forEach(function(place, i){ %>
+    <div>
+      <li>
+          <a href="/info/<%= place.id %>">
+            <h4><%= place.name %></h4>
+            <p><%= place.address %></p>
+          </a>
+      </li>
+    </div>
+  <% }) %>
+</ul>
+
+<script>var markers = <%- JSON.stringify(places) %>; </script>
